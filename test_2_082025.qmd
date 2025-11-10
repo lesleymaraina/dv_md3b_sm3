@@ -1,0 +1,635 @@
+---
+title: "Communicating Quantitative Insight: Designing the Single-Message Figure"
+author: "<br><br><span style='font-size:25px;'><strong>Lesley Chapman Hannah, Ph.D., M.S.</strong></span><br>College of Graduate Studies<br>Northeast Ohio Medical University"
+
+format: 
+  revealjs:
+    #theme: solarized
+    css: style.css
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: images/Flame.jpg
+    #css: styles.css
+    
+---
+
+## <span style="font-size:80%"></span> {.smaller}
+
+::: columns
+::: {.column width="70%"}
+![](images/figure_1.png){.border .border-thick}
+:::
+
+::: {.column width="0%"}
+
+
+::: incremental
+
+
+:::
+:::
+
+:::
+::: footer
+:::
+
+
+
+
+
+## <span style="font-size:80%"></span> {.smaller}
+
+::: columns
+::: {.column width="70%"}
+![](images/figure_2.png){.border .border-thick}
+:::
+
+::: {.column width="0%"}
+
+
+::: incremental
+
+
+:::
+:::
+
+:::
+::: footer
+:::
+
+
+
+
+
+
+## Goal: Design a single-message figure
+
+
+- Start with the claim
+- Reduce clutter
+  - Simplify gridlines, legends, and redundant labels
+- Guide the eye
+  - Contrast, hierarchy, and annotation
+- Close the loop
+  - End with clinical or biological implication
+
+
+
+::: footer
+
+:::
+
+
+
+
+## <span style="font-size:80%">Start with the Claim</span> {.smaller}
+
+
+- Use the title to state the takeaway
+
+- Plot design should visually prove the claim
+
+- Figure is a ‘mini’ scientific argument: visual should include the scientific claim, evidence, and reasoning
+
+
+::: footer
+
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Start with the Claim</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+Title states the takeaway - reader can glean outcome before even reading the plot
+
+Plot design visually proves the claim - downward slope of the line visually confirms the claim of improvement
+
+Mini scientific argument:
+
+  - **Claim**: Glucose levels decrease after therapy
+  - **Evidence**: Consistent downward pattern in the data
+  - **Reasoning**: Lower glucose $\rightarrow$ improved metabolic control $\rightarrow$ a biologically meaningful effect
+
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+
+# Start with claim
+library(tidyverse)
+set.seed(1)
+
+weeks <- 0:12
+df <- tibble(
+  week = weeks,
+  glucose = 165 - 3.2 * week + rnorm(length(weeks), 0, 6)
+)
+
+ggplot(df, aes(week, glucose)) +
+  geom_line(linewidth = 1.2) +
+  geom_point() +
+  labs(
+    title = "Average Fasting Glucose Falls After 12 Weeks of Therapy",
+    subtitle = "Change anchored at treatment initiation (Week 0 baseline)",
+    x = "Weeks since therapy start", y = "Mean fasting glucose (mg/dL)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank())
+
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+
+## <span style="font-size:80%">Reduce clutter: simplify focus</span> {.smaller}
+
+**Goal**: remove redundant or competing visual elements - help the viewer see the scientific signal
+
+**Simplify the visual field**: focus on the message
+
+**Remove redundant legends and labels**: if color, annotation, or axis titles already explain meaning, a legend adds redundancy
+
+**Soften or remove unnecessary gridlines**: subtle scaffolding often enhances perception more than overstructure
+
+**Use whitespace as structure**: adequate spacing between groups, axes, and annotations separates concepts more effectively than lines or boxes
+
+
+::: footer
+
+:::
+
+
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Reduce clutter: simplify focus</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+**Interpretation***:
+
+*Green line*: average HbA1c (%) over 16 weeks following therapy initiation
+
+*Dotted horizontal line*: marks the clinical target threshold of 7% [Americans with Disabilities Act (ADA) for adequate glycemic control]
+
+Clinically meaningful response to therapy: HbA1c decreasing from roughly 8.3% to near 7% 
+
+Controlled, safe improvement
+
+
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+# Reduce Clutter
+library(tidyverse)
+set.seed(1)
+wk <- 0:16
+a1c <- tibble(
+  week = wk,
+  HbA1c = 8.3 - 0.1 * wk + rnorm(length(wk), 0, 0.08)
+)
+
+ggplot(a1c, aes(week, HbA1c)) +
+  geom_line(linewidth = 1.1, color = "#1B9E77") +
+  geom_hline(yintercept = 7, linetype = "dotted") +
+  labs(
+    title = "HbA1c Gradually Declines Toward Clinical Goal",
+    x = "Weeks since therapy start", y = "HbA1c (%)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    legend.position = "none"
+)
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+
+
+## <span style="font-size:80%">Guide the eye: hierarchy & annotation</span> {.smaller}
+
+Captions within figures should help tell the story
+
+- Text annotations reinforce interpretation
+
+Annotations and arrows explain the “why” behind the shape of the plot
+
+- Arrows and short text labels translate pattern into meaning
+
+Color, size, and weight signal importance
+
+- not every data element deserves equal visual emphasis
+
+- use color contrast to distinguish key findings (e.g., highlight the therapeutic threshold or responder group)
+
+
+
+::: footer
+
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Guide the eye: hierarchy & annotation</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+**Research Question**:
+
+When does HbA1c reach the clinical control threshold [7% HbA1c]?
+
+**Plot Type**:
+Annotated line plot with directed arrow and label
+
+**Rationale**:
+Guided hierarchy ensures the eye lands first on the crossing point [the biological event of interest]
+
+
+
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+# Guide the Eye
+library(tidyverse)
+set.seed(1)
+wk <- 0:16
+a1c <- tibble(
+  week = wk,
+  HbA1c = 8.4 - 0.12 * wk + rnorm(length(wk), 0, 0.08)
+)
+
+cross <- a1c$week[min(which(a1c$HbA1c <= 7))]
+
+ggplot(a1c, aes(week, HbA1c)) +
+  geom_line(linewidth = 1.1, color = "#4B9CD3") +
+  geom_hline(yintercept = 7, linetype = "dotted") +
+  annotate("segment", x = cross, xend = cross, y = 7.4, yend = 7.05,
+           arrow = arrow(length = unit(0.12, "in"))) +
+  annotate("text", x = cross + 0.5, y = 7.45,
+           label = "Threshold reached \n(≤7%)", hjust = 0) +
+  labs(
+    title = "HbA1c Crosses Clinical Target Around Week 12",
+    subtitle = "Arrow and annotation guide the viewer to key biological moment",
+    x = "Weeks since therapy start", y = "HbA1c (%)"
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Guide the eye: hierarchy & annotation</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+**Plot Interpretation**:
+
+*Blue Line*: average HbA1c trajectory for a cohort of patients following therapy initiation
+
+*Dotted horizontal line*: ADA clinical target for good glycemic control
+
+*Arrow and label*: week where the average HbA1c value first falls below this threshold
+
+**Scientific Interpretation**:
+
+Indicates clinically meaningful response to therapy 
+
+Cohort, on average, achieves recommended glycemic control by week 12
+
+Sustained downward trend : effective and durable treatment response
+
+Annotated arrow: guides the eye to the key biological event - time point noting when the therapeutic goal is met
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+# Guide the Eye
+library(tidyverse)
+set.seed(1)
+wk <- 0:16
+a1c <- tibble(
+  week = wk,
+  HbA1c = 8.4 - 0.12 * wk + rnorm(length(wk), 0, 0.08)
+)
+
+cross <- a1c$week[min(which(a1c$HbA1c <= 7))]
+
+ggplot(a1c, aes(week, HbA1c)) +
+  geom_line(linewidth = 1.1, color = "#4B9CD3") +
+  geom_hline(yintercept = 7, linetype = "dotted") +
+  annotate("segment", x = cross, xend = cross, y = 7.4, yend = 7.05,
+           arrow = arrow(length = unit(0.12, "in"))) +
+  annotate("text", x = cross + 0.5, y = 7.45,
+           label = "Threshold reached \n(≤7%)", hjust = 0) +
+  labs(
+    title = "HbA1c Crosses Clinical Target Around Week 12",
+    subtitle = "Arrow and annotation guide the viewer to key biological moment",
+    x = "Weeks since therapy start", y = "HbA1c (%)"
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+## <span style="font-size:80%">Close the Loop: Connect Data to Biology</span> {.smaller}
+
+End every visualization by connecting quantitative findings back to biological or clinical insight
+
+Visual summaries should reinforce biomedical and clinical thinking
+
+**Connect measurement to meaning**: data trends are valuable only if interpreted in context
+
+**Annotate the Implication**: annotations guide interpretation without requiring a separate discussion section
+
+
+::: footer
+:::
+
+## <span style="font-size:80%"></span> {.smaller}
+
+Figure should capture the following:
+
+**Observation**: What happened numerically?
+
+**Pattern**: What is the shape or trajectory?
+
+**Meaning**: What biological process does it represent?
+
+**Implication**: What consequence does it carry for health or treatment?
+
+::: footer
+:::
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Close the Loop: Connect Data to Biology</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+**Research Question**
+
+How does the cohort-level fasting glucose evolve after therapy, and when does the typical patient (median) enter the clinically safer range?
+
+**Plot Type**:
+
+Smoothed mean line with 95% variability ribbon and clinical reference line
+
+**Reason for Selecting This Plot**
+
+- Start with the claim: Title states the clinical takeaway
+- Reduce clutter: Minimal gridlines
+- Guide the eye: Contrast (bold median vs faint ribbon), one arrow + label at the crossing
+- Close the loop: Subtitle ties the visual to the biological/clinical implication (below 126 mg/dL = improved control)
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+# Close the Loop
+library(tidyverse)
+set.seed(1)
+
+# Simulate population mean + 95% range for fasting glucose over time
+weeks <- 0:12
+df <- tibble(
+  week = weeks,
+  mean_glucose = 165 - 3.2 * week + rnorm(length(weeks), 0, 4),
+  sd_glucose   = 10 + 1.2 * exp(-0.2 * week)
+)
+
+ggplot(df, aes(week, mean_glucose)) +
+  # light ribbon for variability band (not every patient)
+  geom_ribbon(aes(ymin = mean_glucose - sd_glucose,
+                  ymax = mean_glucose + sd_glucose),
+              fill = "grey85", alpha = 0.4) +
+  # bold mean trajectory
+  geom_line(linewidth = 1.3, color = "#1B2838") +
+  # clinical reference line
+  geom_hline(yintercept = 126, linetype = "dashed", color = "#D55E00") +
+  # concise annotation: tie data → clinical meaning
+  annotate("text", x = 8, y = 128,
+           label = "Safe fasting range \n(≤126 mg/dL)",
+           hjust = 0, vjust = -0.5, size = 3.8, color = "#D55E00") +
+  labs(
+    title = "Cohort Mean Glucose Declines Into the Safe Range",
+        subtitle = "Clinical implication: moving below the diabetes diagnostic threshold \nindicates improved glycemic control",
+    x = "Weeks since therapy start", y = "Fasting glucose (mg/dL)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+
+
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+## <span style="font-size:60%">Close the Loop: Connect Data to Biology</span> {.smaller}
+
+
+::: columns
+::: {.column .small}
+
+**Interpretation**
+
+Median fasting glucose steadily declines after therapy begins, showing a consistent treatment response across the cohort
+
+Interquartile range (IQR) [grey band] :  patient variability
+
+Clinical threshold: diagnostic boundary between diabetes and normal fasting glucose - dashed horizontal line [126 mg/dL]
+
+Population’s median fasting glucose returns to a clinically safer range
+
+:::
+::: column
+
+```{r}
+#| fig-width: 8
+#| fig-height: 9
+# Close the Loop
+library(tidyverse)
+set.seed(1)
+
+# Simulate population mean + 95% range for fasting glucose over time
+weeks <- 0:12
+df <- tibble(
+  week = weeks,
+  mean_glucose = 165 - 3.2 * week + rnorm(length(weeks), 0, 4),
+  sd_glucose   = 10 + 1.2 * exp(-0.2 * week)
+)
+
+ggplot(df, aes(week, mean_glucose)) +
+  # light ribbon for variability band (not every patient)
+  geom_ribbon(aes(ymin = mean_glucose - sd_glucose,
+                  ymax = mean_glucose + sd_glucose),
+              fill = "grey85", alpha = 0.4) +
+  # bold mean trajectory
+  geom_line(linewidth = 1.3, color = "#1B2838") +
+  # clinical reference line
+  geom_hline(yintercept = 126, linetype = "dashed", color = "#D55E00") +
+  # concise annotation: tie data → clinical meaning
+  annotate("text", x = 8, y = 128,
+           label = "Safe fasting range \n(≤126 mg/dL)",
+           hjust = 0, vjust = -0.5, size = 3.8, color = "#D55E00") +
+  labs(
+    title = "Cohort Mean Glucose Declines Into the Safe Range",
+        subtitle = "Clinical implication: moving below the diabetes diagnostic threshold \nindicates improved glycemic control",
+    x = "Weeks since therapy start", y = "Fasting glucose (mg/dL)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+
+
+
+```
+:::
+:::
+
+
+<style>
+.tiny-table table { font-size: 0.8em; }        /* adjust as needed (0.8–0.9em) */
+.tiny-table figcaption, .tiny-table .table-caption { font-size: 0.75em; }
+</style>
+
+
+
+
+## <span style="font-size:80%">Summary</span> {.smaller}
+
+Communicating quantitative insight:
+
+Start with the 
+
+- Figure should begin with a clear, declarative statement of what the data show
+- Scientific claim made visible: titles, axes, and visual emphasis should reinforce a single takeaway
+
+Reduce Clutter
+- simplify design to spotlight the core message
+
+::: footer
+:::
+
+
+
+## <span style="font-size:80%">Summary</span> {.smaller}
+
+Communicating quantitative insight:
+
+Guide the Eye
+- Use visual hierarchy (contrast, color, weight) and annotation (arrows, labels) to direct interpretation
+
+Close the Loop
+- Connect numeric trends back to biological or clinical meaning
+
+::: footer
+:::
